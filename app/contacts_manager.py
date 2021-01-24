@@ -1,5 +1,7 @@
 import json
 
+from .models import Contact
+
 
 class ContactsManager:
     def __init__(self, filename="data/contacts.json"):
@@ -18,24 +20,29 @@ class ContactsManager:
 
     def load_contacts(self):
         with open(self.filename) as f:
-            self.contacts = json.load(f)
+            contacts = json.load(f)
+
+            # self.contacts = [Contact(contact["name"], contact["email"]) for contact in contacts]
+            # Contact(name="...", email="...")
+            self.contacts = [Contact(**contact) for contact in contacts]
 
     def save_contacts(self):
-        data = json.dumps(self.contacts, indent=2)
+        contacts = [{"name": contact.name, "email": contact.email} for contact in self.contacts]
+        data = json.dumps(contacts, indent=2)
         with open(self.filename, "w") as f:
             f.write(data)
 
     def print_list(self):
         print("\nYour contacts:")
         for num, contact in enumerate(self.contacts, start=1):
-            print(f"{num}: {contact['name']} / {contact['email']}")
+            print(f"{num}: {contact.get_display_value()}")
 
     def add_contact(self):
         print("\nAdd a new contact:")
         name = input("Enter name: ")
         email = input("Enter email: ")
 
-        self.contacts.append({"name": name, "email": email})
+        self.contacts.append(Contact(name, email))
         self.save_contacts()
 
         print("Contact was added successfully")
@@ -47,15 +54,11 @@ class ContactsManager:
 
         for num, contact in enumerate(self.contacts, start=1):
             if num == num_to_edit:
-                name = (input(f"Enter new name ({contact['name']}): ")).strip()
-                email = (input(f"Enter email ({contact['email']}): ")).strip()
+                name = (input(f"Enter new name ({contact.name}): ")).strip()
+                email = (input(f"Enter email ({contact.email}): ")).strip()
 
-                updated_contact = {
-                    "name": name if name else contact["name"],
-                    "email": email if email else contact["email"],
-                }
-
-                self.contacts[num-1] = updated_contact
+                contact.name = name if name else contact.name
+                contact.email = email if email else contact.email
 
                 self.save_contacts()
                 print("Contact was updated successfully")
@@ -73,8 +76,8 @@ class ContactsManager:
 
         matches = 0
         for contact in self.contacts:
-            if term.lower() in contact['name'].lower() or term.lower() in contact['email'].lower():
-                print(f"{contact['name']} / {contact['email']}")
+            if term.lower() in contact.name.lower() or term.lower() in contact.email.lower():
+                print(contact.get_display_value())
                 matches += 1
 
         if matches:
