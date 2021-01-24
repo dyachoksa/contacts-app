@@ -1,5 +1,6 @@
 import json
 
+from .json_encoder import ContactAwareJSONEncoder
 from .models import Contact
 
 
@@ -27,8 +28,7 @@ class ContactsManager:
             self.contacts = [Contact(**contact) for contact in contacts]
 
     def save_contacts(self):
-        contacts = [{"name": contact.name, "email": contact.email} for contact in self.contacts]
-        data = json.dumps(contacts, indent=2)
+        data = json.dumps(self.contacts, indent=2, cls=ContactAwareJSONEncoder)
         with open(self.filename, "w") as f:
             f.write(data)
 

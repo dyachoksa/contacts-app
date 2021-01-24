@@ -14,3 +14,9 @@ class Contact:
 
     def has_email(self):
         return self.email is not None and len(self.email) > 0
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "email": self.email,
+        }
