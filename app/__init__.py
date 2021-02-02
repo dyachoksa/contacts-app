@@ -1,6 +1,6 @@
 import sys
 
-from .contacts_manager import ContactsManager
+from .contacts_cli import ContactsCLI
 
 menu = """
 What do you want to do?
@@ -20,7 +20,7 @@ def main():
         filename = sys.argv[1]
 
     print("Using database:", filename)
-    manager = ContactsManager(filename)
+    manager = ContactsCLI(filename)
 
     while True:
         print(menu)
