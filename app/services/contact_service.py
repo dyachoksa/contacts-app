@@ -1,23 +1,24 @@
 import json
+import typing
 
 from app.json_encoder import ContactAwareJSONEncoder
 from app.models import Contact
 
 
 class ContactService:
-    def __init__(self, filename):
-        self.contacts = []
+    def __init__(self, filename: str):
+        self.contacts: typing.List[Contact] = []
         self.filename = filename
 
         self.load_contacts()
 
-    def get_count(self):
+    def get_count(self) -> int:
         return len(self.contacts)
 
-    def get_contacts(self):
+    def get_contacts(self) -> typing.List[Contact]:
         return self.contacts
 
-    def find(self, term):
+    def find(self, term: str) -> typing.List[Contact]:
         results = []
         for contact in self.contacts:
             if term.lower() in contact.name.lower() or term.lower() in contact.email.lower():
@@ -25,7 +26,7 @@ class ContactService:
 
         return results
 
-    def create(self, name, email):
+    def create(self, name: str, email: str) -> Contact:
         contact = Contact(name, email)
 
         self.contacts.append(contact)
@@ -33,7 +34,7 @@ class ContactService:
 
         return contact
 
-    def update(self, id_, name, email):
+    def update(self, id_: int, name: str, email: str) -> None:
         for num, contact in enumerate(self.contacts, start=1):
             if num == id_:
                 contact.name = name if name else contact.name
@@ -41,7 +42,7 @@ class ContactService:
 
                 self.save_contacts()
 
-    def remove(self, id_):
+    def remove(self, id_: int):
         del self.contacts[id_ - 1]
         self.save_contacts()
 

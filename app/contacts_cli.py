@@ -2,9 +2,8 @@ from .services.contact_service import ContactService
 
 
 class ContactsCLI:
-    def __init__(self, filename="data/contacts.json"):
+    def __init__(self, filename: str = "data/contacts.json"):
         self.contacts_service = ContactService(filename)
-        self.contacts = []
 
     def __str__(self):
         return "Contacts Manager"
