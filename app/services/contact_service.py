@@ -18,6 +18,9 @@ class ContactService:
     def get_contacts(self) -> typing.List[Contact]:
         return self.contacts
 
+    def get_contact(self, id_: int):
+        return self.contacts[id_ - 1]
+
     def find(self, term: str) -> typing.List[Contact]:
         results = []
         for contact in self.contacts:
