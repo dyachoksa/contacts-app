@@ -1,0 +1,5 @@
+# GUI-related packages
+PyQt5
+
+# Web packages
+flask
