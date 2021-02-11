@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+
+    <title>{% block title %}{% endblock %} - Contacts App</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar is-spaced">
+            <div class="container">
+                <div class="navbar-brand">
+                    <a class="navbar-item is-size-4 is-family-monospace has-text-primary has-text-weight-bold"
+                       href="{{ url_for('index') }}">Contacts App</a>
+                </div>
+
+                <div class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="{{ url_for('index') }}">Home</a>
+                        <a class="navbar-item" href="{{ url_for('about') }}">About</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="section">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2021, Contacts App Team</p>
+        </div>
+    </footer>
+</body>
+</html>

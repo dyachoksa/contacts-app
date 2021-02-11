@@ -1,16 +1,18 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def index():
-    return "<h1>Welcome to the Contacts App!</h1>"
+    return render_template("index.html")
 
 
-@app.route("/about")
+@app.route("/about-us")
 def about():
-    return """
-<h1>About</h1>
-<p>This is a small and simple contacts management application.</p>
-    """
+    return render_template("about.html")
+
+
+@app.route("/contacts/<name>")
+def contact_details(name):
+    return f"Contact details for {name}"
