@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, abort, redirect, url_for
+from flask import Flask, render_template, abort, redirect, url_for, request
 from flask_wtf import FlaskForm
 from wtforms import StringField
 from wtforms.fields.html5 import EmailField
@@ -33,6 +33,18 @@ def page_not_found(error):
 def index():
     contacts = contact_service.get_contacts()
     return render_template("index.html", contacts=contacts)
+
+
+@app.route("/search")
+def search():
+    term = request.args.get("term", "")
+
+    if not term:
+        return redirect(url_for("index"))
+
+    contacts = contact_service.find(term)
+
+    return render_template("search.html", contacts=contacts, term=term)
 
 
 @app.route("/about-us")

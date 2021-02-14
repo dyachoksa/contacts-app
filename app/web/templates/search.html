@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Search results{% endblock %}
+
+{% block content %}
+    <div class="block mt-6">
+        <h2 class="title is-4">Search results for <em>{{ term }}</em> </h2>
+        <div class="columns is-multiline">
+            {% for contact in contacts %}
+                <div class="column is-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">
+                                        <a href="{{ url_for('contact_details', name=contact.name) }}">
+                                            {{ contact.name }}
+                                        </a>
+                                    </p>
+                                    <p class="subtitle is-6">{{ contact.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

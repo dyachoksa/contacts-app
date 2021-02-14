@@ -26,7 +26,18 @@
                     </div>
 
                     <div class="navbar-end">
-                        <a class="button is-primary" href="{{ url_for('add_contact') }}">Add contact</a>
+                        <form method="get" action="{{ url_for('search') }}">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <input class="input" type="text" name="term" placeholder="Find a contact">
+                                </div>
+                                <div class="control">
+                                    <button class="button is-info" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <a class="ml-4 button is-primary" href="{{ url_for('add_contact') }}">Add contact</a>
                     </div>
                 </div>
             </div>
