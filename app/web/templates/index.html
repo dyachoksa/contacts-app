@@ -3,16 +3,39 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1 class="title">Welcome to Contacts App!</h1>
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <h1 class="title">Welcome to Contacts App!</h1>
 
-    <div class="content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad deleniti enim molestias saepe similique suscipit
-            tempora voluptate! A alias amet error et ipsam nisi odio perspiciatis quam quis sunt, tempore?
-        </p>
+            <div class="content">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad deleniti enim molestias saepe similique suscipit
+                    tempora voluptate! A alias amet error et ipsam nisi odio perspiciatis quam quis sunt, tempore?
+                </p>
+            </div>
+        </div>
+    </section>
 
-        <p>Ad consequatur culpa deleniti deserunt dignissimos, distinctio, doloremque doloribus earum error est et fuga
-            magni maxime necessitatibus nisi nulla obcaecati, pariatur quaerat quo reiciendis repellat sapiente sed
-            similique suscipit veniam!
-        </p>
+    <div class="block mt-6">
+        <h2 class="title is-4">My Contacts</h2>
+        <div class="columns is-multiline">
+            {% for contact in contacts %}
+                <div class="column is-4">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="media">
+                                <div class="media-content">
+                                    <p class="title is-4">
+                                        <a href="{{ url_for('contact_details', name=contact.name) }}">
+                                            {{ contact.name }}
+                                        </a>
+                                    </p>
+                                    <p class="subtitle is-6">{{ contact.email }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

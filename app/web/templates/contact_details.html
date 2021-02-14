@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Contact details{% endblock title %}
+
+{% block content %}
+    <h1 class="title">Contact details</h1>
+
+    <div class="columns">
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title is-4">{{ contact.name }}</p>
+                            <p class="subtitle is-6">{{ contact.email }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
