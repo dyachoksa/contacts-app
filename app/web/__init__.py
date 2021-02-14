@@ -1,6 +1,10 @@
 import os
 
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, redirect, url_for
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.fields.html5 import EmailField
+from wtforms.validators import DataRequired, Email
 
 from app.services.contact_service import ContactService
 
@@ -8,8 +12,16 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "data/contacts.json")
 
 
 app = Flask(__name__)
+app.config[
+    "SECRET_KEY"
+] = "204f26b2c90fd38adb73d2b76b8c2769d51c1c7cf0c684d8b57b5365d3e106d7"
 
 contact_service = ContactService(DATABASE_URL)
+
+
+class ContactForm(FlaskForm):
+    name = StringField("Name", validators=[DataRequired()])
+    email = EmailField("E-mail", validators=[DataRequired(), Email()])
 
 
 @app.errorhandler(404)
@@ -28,6 +40,18 @@ def about():
     return render_template("about.html")
 
 
+@app.route("/contacts/add", methods=["GET", "POST"])
+def add_contact():
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        contact = contact_service.create(form.name.data, form.email.data)
+
+        return redirect(url_for("contact_details", name=contact.name))
+
+    return render_template("add_contact.html", form=form)
+
+
 @app.route("/contacts/<name>")
 def contact_details(name):
     try:
@@ -36,3 +60,33 @@ def contact_details(name):
         return abort(404)
 
     return render_template("contact_details.html", contact=contact)
+
+
+@app.route("/contacts/<name>/edit", methods=["GET", "POST"])
+def edit_contact(name):
+    try:
+        contact = contact_service.find(name)[0]
+    except IndexError:
+        return abort(404)
+
+    form = ContactForm(obj=contact)
+
+    if form.validate_on_submit():
+        form.populate_obj(contact)
+        contact_service.save_contacts()
+
+        return redirect(url_for("contact_details", name=contact.name))
+
+    return render_template("edit_contact.html", contact=contact, form=form)
+
+
+@app.route("/contacts/<name>/remove", methods=["POST"])
+def remove_contact(name):
+    try:
+        contact = contact_service.find(name)[0]
+    except IndexError:
+        return abort(404)
+
+    contact_service.remove(contact)
+
+    return redirect(url_for("index"))

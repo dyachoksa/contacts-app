@@ -1,5 +1,9 @@
+# Common packages
+email-validator
+
 # GUI-related packages
 PyQt5
 
 # Web packages
 flask
+Flask-WTF

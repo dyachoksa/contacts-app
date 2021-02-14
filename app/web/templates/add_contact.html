@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Add contact{% endblock title %}
+
+{% block content %}
+    <h1 class="title">Add a new contact</h1>
+
+    <div class="columns">
+        <div class="column is-4">
+            <div class="card">
+                <div class="card-content">
+                    <form method="post" action="{{ url_for('add_contact') }}">
+                        {{ form.csrf_token }}
+
+                        <div class="field">
+                            <label class="label" for="{{ form.name.label.field_id }}">
+                                {{ form.name.label.text }}
+                            </label>
+                            <div class="control">
+                                {{ form.name(size=20, class="input") }}
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="{{ form.email.label.field_id }}">
+                                {{ form.email.label.text }}
+                            </label>
+                            <div class="control">
+                                {{ form.email(size=20, class="input") }}
+                            </div>
+                        </div>
+
+                        <button class="button is-primary" type="submit">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

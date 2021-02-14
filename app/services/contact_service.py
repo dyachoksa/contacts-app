@@ -24,7 +24,10 @@ class ContactService:
     def find(self, term: str) -> typing.List[Contact]:
         results = []
         for contact in self.contacts:
-            if term.lower() in contact.name.lower() or term.lower() in contact.email.lower():
+            if (
+                term.lower() in contact.name.lower()
+                or term.lower() in contact.email.lower()
+            ):
                 results.append(contact)
 
         return results
@@ -45,8 +48,12 @@ class ContactService:
 
                 self.save_contacts()
 
-    def remove(self, id_: int):
-        del self.contacts[id_ - 1]
+    def remove(self, contact: typing.Union[int, Contact]):
+        if isinstance(contact, Contact):
+            self.contacts.remove(contact)
+        else:
+            del self.contacts[contact - 1]
+
         self.save_contacts()
 
     def load_contacts(self):
