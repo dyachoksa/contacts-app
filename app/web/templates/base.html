@@ -6,54 +6,84 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+          integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w=="
+          crossorigin="anonymous"/>
 
     <title>{% block title %}{% endblock %} - Contacts App</title>
 </head>
 <body>
-    <header>
-        <nav class="navbar is-spaced">
-            <div class="container">
-                <div class="navbar-brand">
-                    <a class="navbar-item is-size-4 is-family-monospace has-text-primary has-text-weight-bold"
-                       href="{{ url_for('index') }}">Contacts App</a>
+<header>
+    <nav class="navbar is-spaced">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item is-size-4 is-family-monospace has-text-primary has-text-weight-bold"
+                   href="{{ url_for('index') }}">Contacts App</a>
+            </div>
+
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item" href="{{ url_for('index') }}">Home</a>
+                    <a class="navbar-item" href="{{ url_for('about') }}">About</a>
                 </div>
 
-                <div class="navbar-menu">
-                    <div class="navbar-start">
-                        <a class="navbar-item" href="{{ url_for('index') }}">Home</a>
-                        <a class="navbar-item" href="{{ url_for('about') }}">About</a>
-                    </div>
+                <div class="navbar-end">
+                    <form method="get" action="{{ url_for('search') }}">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input" type="text" name="term" placeholder="Find a contact">
+                            </div>
+                            <div class="control">
+                                <button class="button is-info" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>
 
-                    <div class="navbar-end">
-                        <form method="get" action="{{ url_for('search') }}">
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <input class="input" type="text" name="term" placeholder="Find a contact">
+                    <a class="ml-4 button is-primary" href="{{ url_for('add_contact') }}">Add contact</a>
+
+                    <div class="ml-4">
+                        {% if current_user.is_authenticated %}
+                            <div class="dropdown is-hoverable">
+                                <div class="dropdown-trigger">
+                                    <button class="button" aria-haspopup="true" aria-controls="dropdown-menu4">
+                                        <figure class="image is-32x32">
+                                            <img class="is-rounded"
+                                                 src="https://eu.ui-avatars.com/api/?background=0D8ABC&color=fff&name={{ current_user.username }}"
+                                                 alt=""/>
+                                        </figure>
+                                        <span class="pl-2">{{ current_user.username }}</span>
+                                        <span class="icon is-small">
+                                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        </span>
+                                    </button>
                                 </div>
-                                <div class="control">
-                                    <button class="button is-info" type="submit">Search</button>
+                                <div class="dropdown-menu" id="dropdown-menu4" role="menu">
+                                    <div class="dropdown-content">
+                                        <a href="{{ url_for('logout') }}" class="dropdown-item">Logout</a>
+                                    </div>
                                 </div>
                             </div>
-                        </form>
-
-                        <a class="ml-4 button is-primary" href="{{ url_for('add_contact') }}">Add contact</a>
+                        {% else %}
+                            <a href="{{ url_for('login') }}" class="button is-link">Login</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <main class="section">
-        <div class="container">
-            {% block content %}{% endblock %}
         </div>
-    </main>
+    </nav>
+</header>
 
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2021, Contacts App Team</p>
-        </div>
-    </footer>
+<main class="section">
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2021, Contacts App Team</p>
+    </div>
+</footer>
 </body>
 </html>

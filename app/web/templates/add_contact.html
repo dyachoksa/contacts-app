@@ -3,11 +3,11 @@
 {% block title %}Add contact{% endblock title %}
 
 {% block content %}
-    <h1 class="title">Add a new contact</h1>
-
-    <div class="columns">
+    <div class="columns is-centered">
         <div class="column is-4">
-            <div class="card">
+            <h1 class="title">Add a new contact</h1>
+
+            <div class="mt-2 card">
                 <div class="card-content">
                     <form method="post" action="{{ url_for('add_contact') }}">
                         {{ form.csrf_token }}
