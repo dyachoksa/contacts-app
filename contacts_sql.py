@@ -19,7 +19,7 @@ CREATE INDEX idx_contacts_email ON contacts(email);
     cur = conn.cursor()
 
     res = cur.executescript(sql)
-    print(res.rowcount(), "queries were executed.")
+    print(res.rowcount, "queries were executed.")
 
 
 def create_records(conn):
